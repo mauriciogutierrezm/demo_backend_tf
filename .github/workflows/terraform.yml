@@ -4,6 +4,7 @@ on:
   push:
     branches: [ "develop" ]
   pull_request:
+    branches: [ "develop" ]
 
 permissions:
   contents: read
@@ -15,7 +16,7 @@ jobs:
     environment: Develop
     env:
         AWS_ACCESS_KEY_ID: ${{ secrets.POC_AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.POC_SECRET_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.POC_AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-east-2
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -39,7 +40,7 @@ jobs:
     - name: Terraform Init
       run: |
         eval `ssh-agent -s`
-        ssh-add - <<< '${{ secrets.SSH_KEY_GITHUB_ACTIONS }}'
+        ssh-add - <<< '${{ secrets.SSH_KEY_GITHUB_MODULES }}'
         terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
